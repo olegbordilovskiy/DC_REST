@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DC_REST.DTOs.Request;
 using DC_REST.DTOs.Response;
 using DC_REST.Entities;
 using DC_REST.Repositories;
@@ -17,32 +18,32 @@ namespace DC_REST.Services
 			_mapper = mapper;
 		}
 
-		public UserResponseTo CreateUser(UserRequestDto userRequestDto)
+		public UserResponseTo CreateUser(UserRequestTo userRequestDto)
 		{
 			var user = _mapper.Map<User>(userRequestDto);
 			var createdUser = _userRepository.Add(user);
-			var responseDto = _mapper.Map<UserDto>(createdUser);
+			var responseDto = _mapper.Map<UserResponseTo>(createdUser);
 
 			return responseDto;
 		}
 
-		public UserDto GetUserById(int id)
+		public UserResponseTo GetUserById(int id)
 		{
 			var user = _userRepository.GetById(id);
-			var userDto = _mapper.Map<UserDto>(user);
+			var userDto = _mapper.Map<UserResponseTo>(user);
 
 			return userDto;
 		}
 
-		public IEnumerable<UserDto> GetAllUsers()
+		public IEnumerable<UserResponseTo> GetAllUsers()
 		{
 			var users = _userRepository.GetAll();
-			var userDtos = _mapper.Map<IEnumerable<UserDto>>(users);
+			var userDtos = _mapper.Map<IEnumerable<UserResponseTo>>(users);
 
 			return userDtos;
 		}
 
-		public UserDto UpdateUser(int id, UserRequestDto userRequestDto)
+		public UserResponseTo UpdateUser(int id, UserRequestTo userRequestDto)
 		{
 			var existingUser = _userRepository.GetById(id);
 			if (existingUser == null)
@@ -52,8 +53,8 @@ namespace DC_REST.Services
 			}
 
 			_mapper.Map(userRequestDto, existingUser);
-			var updatedUser = _userRepository.Update(existingUser);
-			var responseDto = _mapper.Map<UserDto>(updatedUser);
+			var updatedUser = _userRepository.Update(id, existingUser);
+			var responseDto = _mapper.Map<UserResponseTo>(updatedUser);
 
 			return responseDto;
 		}
