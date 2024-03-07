@@ -1,8 +1,7 @@
-﻿namespace DC_REST.DTOs
+﻿namespace DC_REST.DTOs.Request
 {
-	public class UserDTO
+	public class UserRequestTo
 	{
-		public int Id { get; set; }
 		public string Login { get; set; }
 		public string Password { get; set; }
 		public string FirstName { get; set; }

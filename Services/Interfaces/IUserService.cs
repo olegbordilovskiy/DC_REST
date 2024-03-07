@@ -1,13 +1,14 @@
-﻿using DC_REST.DTOs;
+﻿using DC_REST.DTOs.Request;
+using DC_REST.DTOs.Response;
 
 namespace DC_REST.Services.Interfaces
 {
-	public interface IUserService
+    public interface IUserService
 	{
-		UserDTO CreateUser(UserDTO userRequestDto);
-		UserDTO GetUserById(int id);
-		IEnumerable<UserDTO> GetAllUsers();
-		UserDTO UpdateUser(int id, UserDTO userRequestDto);
+		UserResponseTo CreateUser(UserRequestTo userRequestDto);
+		UserResponseTo GetUserById(int id);
+		IEnumerable<UserResponseTo> GetAllUsers();
+		UserResponseTo UpdateUser(int id, UserRequestTo userRequestDto);
 		bool DeleteUser(int id);
 	}
 }

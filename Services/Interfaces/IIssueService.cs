@@ -1,13 +1,14 @@
-﻿using DC_REST.DTOs;
+﻿using DC_REST.DTOs.Request;
+using DC_REST.DTOs.Response;
 
 namespace DC_REST.Services.Interfaces
 {
     public interface IIssueService
     {
-        IssueDTO CreateIssue(IssueDTO issueRequestDto);
-        IssueDTO GetIssueById(int id);
-        IEnumerable<IssueDTO> GetAllIssues();
-        IssueDTO UpdateIssue(int id, IssueDTO issueRequestDto);
+        IssueResponseTo CreateIssue(IssueRequestTo issueRequestDto);
+        IssueResponseTo GetIssueById(int id);
+        IEnumerable<IssueResponseTo> GetAllIssues();
+        IssueResponseTo UpdateIssue(int id, IssueRequestTo issueRequestDto);
         bool DeleteIssue(int id);
     }
 }

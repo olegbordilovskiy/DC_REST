@@ -1,13 +1,14 @@
-﻿using DC_REST.DTOs;
+﻿using DC_REST.DTOs.Request;
+using DC_REST.DTOs.Response;
 
 namespace DC_REST.Services.Interfaces
 {
-	public interface ILabelService
+    public interface ILabelService
 	{
-		LabelDTO CreateLabel(LabelDTO labelRequestDto);
-		LabelDTO GetLabelById(int id);
-		IEnumerable<LabelDTO> GetAllLabels();
-		LabelDTO UpdateLabel(int id, LabelDTO labelRequestDto);
+		LabelResponseTo CreateLabel(LabelRequestTo labelRequestDto);
+		LabelResponseTo GetLabelById(int id);
+		IEnumerable<LabelResponseTo> GetAllLabels();
+		LabelResponseTo UpdateLabel(int id, LabelRequestTo labelRequestDto);
 		bool DeleteLabel(int id);
 	}
 }

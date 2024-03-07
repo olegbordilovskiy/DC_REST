@@ -1,13 +1,14 @@
-﻿using DC_REST.DTOs;
+﻿using DC_REST.DTOs.Request;
+using DC_REST.DTOs.Response;
 
 namespace DC_REST.Services.Interfaces
 {
-	public interface INoteService
+    public interface INoteService
 	{
-		NoteDTO CreateNote(NoteDTO noteRequestDto);
-		NoteDTO GetNoteById(int id);
-		IEnumerable<NoteDTO> GetAllNotes();
-		NoteDTO UpdateNote(int id, NoteDTO noteRequestDto);
+		NoteResponseTo CreateNote(NoteRequestTo noteRequestDto);
+		NoteResponseTo GetNoteById(int id);
+		IEnumerable<NoteResponseTo> GetAllNotes();
+		NoteResponseTo UpdateNote(int id, NoteRequestTo noteRequestDto);
 		bool DeleteNote(int id);
 	}
 }
