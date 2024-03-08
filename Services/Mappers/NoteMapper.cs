@@ -7,7 +7,7 @@ namespace DC_REST.Services.Mappers
 {
 	public class NoteMapper: Profile
 	{
-		NoteMapper() 
+		public NoteMapper() 
 		{
 			CreateMap<Note, NoteResponseTo>();
 			CreateMap<NoteRequestTo, Note>();

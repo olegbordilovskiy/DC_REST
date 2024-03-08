@@ -7,7 +7,7 @@ namespace DC_REST.Services.Interfaces
 	{
 		LabelResponseTo CreateLabel(LabelRequestTo labelRequestDto);
 		LabelResponseTo GetLabelById(int id);
-		IEnumerable<LabelResponseTo> GetAllLabels();
+		List<LabelResponseTo> GetAllLabels();
 		LabelResponseTo UpdateLabel(int id, LabelRequestTo labelRequestDto);
 		bool DeleteLabel(int id);
 	}

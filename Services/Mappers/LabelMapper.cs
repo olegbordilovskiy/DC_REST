@@ -7,7 +7,7 @@ namespace DC_REST.Services.Mappers
 {
 	public class LabelMapper : Profile
 	{
-		LabelMapper() 
+		public LabelMapper() 
 		{
 			CreateMap<Label, LabelResponseTo>();
 			CreateMap<LabelRequestTo, Label>();

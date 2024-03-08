@@ -7,7 +7,7 @@ namespace DC_REST.Services.Interfaces
     {
         IssueResponseTo CreateIssue(IssueRequestTo issueRequestDto);
         IssueResponseTo GetIssueById(int id);
-        IEnumerable<IssueResponseTo> GetAllIssues();
+        List<IssueResponseTo> GetAllIssues();
         IssueResponseTo UpdateIssue(int id, IssueRequestTo issueRequestDto);
         bool DeleteIssue(int id);
     }

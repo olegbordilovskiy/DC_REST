@@ -36,10 +36,10 @@ namespace DC_REST.Services
 			return noteDto;
 		}
 
-		public IEnumerable<NoteResponseTo> GetAllNotes()
+		public List<NoteResponseTo> GetAllNotes()
 		{
 			var notes = _noteRepository.GetAll();
-			var noteDtos = _mapper.Map<IEnumerable<NoteResponseTo>>(notes);
+			var noteDtos = _mapper.Map<List<NoteResponseTo>>(notes);
 
 			return noteDtos;
 		}

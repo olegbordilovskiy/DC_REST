@@ -7,7 +7,7 @@ namespace DC_REST.Services.Interfaces
 	{
 		UserResponseTo CreateUser(UserRequestTo userRequestDto);
 		UserResponseTo GetUserById(int id);
-		IEnumerable<UserResponseTo> GetAllUsers();
+		List<UserResponseTo> GetAllUsers();
 		UserResponseTo UpdateUser(int id, UserRequestTo userRequestDto);
 		bool DeleteUser(int id);
 	}

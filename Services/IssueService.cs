@@ -36,10 +36,10 @@ namespace DC_REST.Services
 			return issueDto;
 		}
 
-		public IEnumerable<IssueResponseTo> GetAllIssues()
+		public List<IssueResponseTo> GetAllIssues()
 		{
 			var issues = _issueRepository.GetAll();
-			var issueDtos = _mapper.Map<IEnumerable<IssueResponseTo>>(issues);
+			var issueDtos = _mapper.Map<List<IssueResponseTo>>(issues);
 
 			return issueDtos;
 		}

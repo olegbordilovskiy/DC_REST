@@ -7,7 +7,7 @@ namespace DC_REST.Services.Interfaces
 	{
 		NoteResponseTo CreateNote(NoteRequestTo noteRequestDto);
 		NoteResponseTo GetNoteById(int id);
-		IEnumerable<NoteResponseTo> GetAllNotes();
+		List<NoteResponseTo> GetAllNotes();
 		NoteResponseTo UpdateNote(int id, NoteRequestTo noteRequestDto);
 		bool DeleteNote(int id);
 	}

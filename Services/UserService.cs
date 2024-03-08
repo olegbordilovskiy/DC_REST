@@ -35,10 +35,10 @@ namespace DC_REST.Services
 			return userDto;
 		}
 
-		public IEnumerable<UserResponseTo> GetAllUsers()
+		public List<UserResponseTo> GetAllUsers()
 		{
 			var users = _userRepository.GetAll();
-			var userDtos = _mapper.Map<IEnumerable<UserResponseTo>>(users);
+			var userDtos = _mapper.Map<List<UserResponseTo>>(users);
 
 			return userDtos;
 		}

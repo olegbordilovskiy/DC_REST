@@ -1,4 +1,10 @@
 
+using DC_REST.Entities;
+using DC_REST.Repositories;
+using DC_REST.Services;
+using DC_REST.Services.Interfaces;
+using DC_REST.Services.Mappers;
+
 namespace DC_REST
 {
 	public class Program
@@ -6,6 +12,8 @@ namespace DC_REST
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+			builder.WebHost.UseUrls("http://localhost:24110");
+
 
 			// Add services to the container.
 
@@ -13,6 +21,14 @@ namespace DC_REST
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddScoped<IRepository<Issue>, InMemoryRepository<Issue>>();
+			builder.Services.AddTransient<IIssueService,IssueService>();
+
+			builder.Services.AddAutoMapper(typeof(IssueMapper));
+			builder.Services.AddAutoMapper(typeof(LabelMapper));
+			builder.Services.AddAutoMapper(typeof(NoteMapper));
+			builder.Services.AddAutoMapper(typeof(UserMapper));
 
 			var app = builder.Build();
 
@@ -31,6 +47,8 @@ namespace DC_REST
 			app.MapControllers();
 
 			app.Run();
+
+
 		}
 	}
 }

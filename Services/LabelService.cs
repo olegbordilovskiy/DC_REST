@@ -36,10 +36,10 @@ namespace DC_REST.Services
 			return labelDto;
 		}
 
-		public IEnumerable<LabelResponseTo> GetAllLabels()
+		public List<LabelResponseTo> GetAllLabels()
 		{
 			var labels = _labelRepository.GetAll();
-			var labelDtos = _mapper.Map<IEnumerable<LabelResponseTo>>(labels);
+			var labelDtos = _mapper.Map<List<LabelResponseTo>>(labels);
 
 			return labelDtos;
 		}
