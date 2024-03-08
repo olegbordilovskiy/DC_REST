@@ -3,7 +3,7 @@
 	public class InMemoryRepository<TEntity>: IRepository<TEntity>
 	{
 		private readonly Dictionary<int, TEntity> _data = new Dictionary<int, TEntity>();
-		private int _currentId = 1;
+		private int _currentId = 0;
 
 		public TEntity GetById(int id)
 		{
@@ -17,8 +17,9 @@
 
 		public TEntity Add(TEntity entity)
 		{
-			var id = _currentId++;
-			_data[id] = entity;
+			_data.Add(_currentId, entity);
+			_currentId++;
+			//_data[id] = entity;
 			return entity;
 		}
 		public TEntity Update(int id, TEntity entity)
@@ -34,6 +35,7 @@
 
 		public bool Delete(int id)
 		{
+			_currentId--;
 			return _data.Remove(id);
 		}
 	}

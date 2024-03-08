@@ -26,9 +26,9 @@ namespace DC_REST.Controllers
 		[HttpPost]
 		public IActionResult CreateIssue(IssueRequestTo issueRequestDto)
 		{
-			var issueResponseDTO = _issueService.CreateIssue(issueRequestDto); // Создание задачи с использованием сервиса
-																			   //return Ok(issueResponseDTO); // Возврат созданного объекта responseDto
-			return StatusCode(201);
+			var issueResponseDTO = _issueService.CreateIssue(issueRequestDto); 
+			//return Ok(issueResponseDTO); // Возврат созданного объекта responseDto
+			return StatusCode(201, issueResponseDTO);
 		}
 
 		[HttpGet]

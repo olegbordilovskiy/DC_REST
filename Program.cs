@@ -22,8 +22,11 @@ namespace DC_REST
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			builder.Services.AddScoped<IRepository<Issue>, InMemoryRepository<Issue>>();
+			builder.Services.AddSingleton<IRepository<Issue>, InMemoryRepository<Issue>>();
 			builder.Services.AddTransient<IIssueService,IssueService>();
+
+			builder.Services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
+			builder.Services.AddTransient<IUserService, UserService>();
 
 			builder.Services.AddAutoMapper(typeof(IssueMapper));
 			builder.Services.AddAutoMapper(typeof(LabelMapper));
