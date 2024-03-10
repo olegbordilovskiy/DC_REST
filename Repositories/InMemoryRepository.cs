@@ -17,6 +17,7 @@
 
 		public TEntity Add(TEntity entity)
 		{
+			
 			_data.Add(_currentId, entity);
 			_currentId++;
 			//_data[id] = entity;
@@ -35,8 +36,12 @@
 
 		public bool Delete(int id)
 		{
-			_currentId--;
+			//_currentId--;
 			return _data.Remove(id);
+		}
+		public int GetCurrentId()
+		{
+			return _currentId;
 		}
 	}
 }

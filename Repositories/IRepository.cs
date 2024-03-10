@@ -7,5 +7,6 @@
 		TEntity Add(TEntity entity);
 		TEntity Update(int id, TEntity entity);
 		bool Delete(int id);
+		int GetCurrentId();
 	}
 }

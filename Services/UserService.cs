@@ -4,6 +4,7 @@ using DC_REST.DTOs.Response;
 using DC_REST.Entities;
 using DC_REST.Repositories;
 using DC_REST.Services.Interfaces;
+using DC_REST.Validators;
 
 namespace DC_REST.Services
 {
@@ -11,16 +12,20 @@ namespace DC_REST.Services
 	{
 		private readonly IRepository<User> _userRepository;
 		private readonly IMapper _mapper;
+		private readonly IValidator<UserRequestTo> _userValidator;
 
-		public UserService(IRepository<User> userRepository, IMapper mapper)
+		public UserService(IRepository<User> userRepository, IMapper mapper, IValidator<UserRequestTo> userValidator)
 		{
 			_userRepository = userRepository;
 			_mapper = mapper;
+			_userValidator = userValidator;
 		}
 
 		public UserResponseTo CreateUser(UserRequestTo userRequestDto)
 		{
 			var user = _mapper.Map<User>(userRequestDto);
+			var currentId = _userRepository.GetCurrentId();
+			user.Id = currentId;
 			var createdUser = _userRepository.Add(user);
 			var responseDto = _mapper.Map<UserResponseTo>(createdUser);
 
@@ -45,10 +50,15 @@ namespace DC_REST.Services
 
 		public UserResponseTo UpdateUser(int id, UserRequestTo userRequestDto)
 		{
+
+			if (!_userValidator.Validate(userRequestDto)) 
+			{
+				throw new ArgumentException("Invalid user data");
+			}
+
 			var existingUser = _userRepository.GetById(id);
 			if (existingUser == null)
 			{
-				// Обработка ситуации, когда пользователь не найден
 				return null;
 			}
 

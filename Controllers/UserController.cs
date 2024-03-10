@@ -22,7 +22,7 @@ namespace DC_REST.Controllers
 		[HttpPost]
 		public IActionResult CreateUser(UserRequestTo userRequestDto)
 		{
-			var userResponseDTO = _userService.CreateUser(userRequestDto); 
+			var userResponseDTO = _userService.CreateUser(userRequestDto);
 			return StatusCode(201, userResponseDTO);
 		}
 
@@ -44,15 +44,21 @@ namespace DC_REST.Controllers
 			return Ok(userResponseDTO);
 		}
 
-		[HttpPut("{id}")]
-		public IActionResult UpdateIssue(int id, UserRequestTo userRequestDto)
+		[HttpPut]
+		public IActionResult UpdateIssue(UserRequestTo userRequestDTO)
 		{
-			var userResponseDTO = _userService.UpdateUser(id, userRequestDto);
+			try
+			{
+				var userResponseDTO = _userService.UpdateUser(userRequestDTO.Id, userRequestDTO);
+				if (userResponseDTO == null)
+					return NotFound();
 
-			if (userResponseDTO == null)
-				return NotFound();
-
-			return Ok(userResponseDTO);
+				return Ok(userResponseDTO);
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 
 		[HttpDelete("{id}")]

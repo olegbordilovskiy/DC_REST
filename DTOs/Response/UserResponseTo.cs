@@ -2,10 +2,10 @@
 {
     public class UserResponseTo
     {
-        public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
+        public int id { get; set; }
+        public string login { get; set; }
+        public string password { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
     }
 }

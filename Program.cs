@@ -1,9 +1,11 @@
 
+using DC_REST.DTOs.Request;
 using DC_REST.Entities;
 using DC_REST.Repositories;
 using DC_REST.Services;
 using DC_REST.Services.Interfaces;
 using DC_REST.Services.Mappers;
+using DC_REST.Validators;
 
 namespace DC_REST
 {
@@ -26,6 +28,7 @@ namespace DC_REST
 			builder.Services.AddTransient<IIssueService,IssueService>();
 
 			builder.Services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
+			builder.Services.AddTransient<IValidator<UserRequestTo>, UserValidator>();
 			builder.Services.AddTransient<IUserService, UserService>();
 
 			builder.Services.AddAutoMapper(typeof(IssueMapper));
