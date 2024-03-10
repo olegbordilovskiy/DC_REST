@@ -4,6 +4,7 @@ using DC_REST.DTOs.Response;
 using DC_REST.Entities;
 using DC_REST.Repositories;
 using DC_REST.Services.Interfaces;
+using DC_REST.Validators;
 using System.Collections.Generic;
 
 namespace DC_REST.Services
@@ -12,16 +13,20 @@ namespace DC_REST.Services
 	{
 		private readonly IRepository<Issue> _issueRepository;
 		private readonly IMapper _mapper;
+		private readonly IValidator<IssueRequestTo> _issueValidator;
 
-		public IssueService(IRepository<Issue> issueRepository, IMapper mapper)
+		public IssueService(IRepository<Issue> issueRepository, IMapper mapper, IValidator<IssueRequestTo> issueValidator)
 		{
 			_issueRepository = issueRepository;
 			_mapper = mapper;
+			_issueValidator = issueValidator;
 		}
 
 		public IssueResponseTo CreateIssue(IssueRequestTo issueRequestDto)
 		{
 			var issue = _mapper.Map<Issue>(issueRequestDto);
+			var currentId = _issueRepository.GetCurrentId();
+			issue.Id = currentId;
 			var createdIssue = _issueRepository.Add(issue);
 			var responseDto = _mapper.Map<IssueResponseTo>(createdIssue);
 
@@ -44,16 +49,20 @@ namespace DC_REST.Services
 			return issueDtos;
 		}
 
-		public IssueResponseTo UpdateIssue(int id, IssueRequestTo issueRequestDto)
+		public IssueResponseTo UpdateIssue(int id, IssueRequestTo issueRequestDTO)
 		{
+			if (!_issueValidator.Validate(issueRequestDTO))
+			{
+				throw new ArgumentException("Invalid issue data");
+			}
+
 			var existingIssue = _issueRepository.GetById(id);
 			if (existingIssue == null)
 			{
-				// Обработка ситуации, когда задача не найдена
 				return null;
 			}
 
-			_mapper.Map(issueRequestDto, existingIssue);
+			_mapper.Map(issueRequestDTO, existingIssue);
 			var updatedIssue = _issueRepository.Update(id, existingIssue);
 			var responseDto = _mapper.Map<IssueResponseTo>(updatedIssue);
 
@@ -65,7 +74,6 @@ namespace DC_REST.Services
 			var issueToDelete = _issueRepository.GetById(id);
 			if (issueToDelete == null)
 			{
-				// Обработка ситуации, когда задача не найдена
 				return false;
 			}
 

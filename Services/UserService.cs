@@ -43,15 +43,15 @@ namespace DC_REST.Services
 		public List<UserResponseTo> GetAllUsers()
 		{
 			var users = _userRepository.GetAll();
-			var userDtos = _mapper.Map<List<UserResponseTo>>(users);
+			var usersDTO = _mapper.Map<List<UserResponseTo>>(users);
 
-			return userDtos;
+			return usersDTO;
 		}
 
-		public UserResponseTo UpdateUser(int id, UserRequestTo userRequestDto)
+		public UserResponseTo UpdateUser(int id, UserRequestTo userRequestDTO)
 		{
 
-			if (!_userValidator.Validate(userRequestDto)) 
+			if (!_userValidator.Validate(userRequestDTO)) 
 			{
 				throw new ArgumentException("Invalid user data");
 			}
@@ -62,7 +62,7 @@ namespace DC_REST.Services
 				return null;
 			}
 
-			_mapper.Map(userRequestDto, existingUser);
+			_mapper.Map(userRequestDTO, existingUser);
 			var updatedUser = _userRepository.Update(id, existingUser);
 			var responseDto = _mapper.Map<UserResponseTo>(updatedUser);
 
@@ -74,7 +74,6 @@ namespace DC_REST.Services
 			var userToDelete = _userRepository.GetById(id);
 			if (userToDelete == null)
 			{
-				// Обработка ситуации, когда пользователь не найден
 				return false;
 			}
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DC_REST.DTOs.Request;
+using DC_REST.Entities;
 using DC_REST.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ namespace DC_REST.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateUser(UserRequestTo userRequestDto)
+		public IActionResult CreateUser(UserRequestTo userRequestDTO)
 		{
-			var userResponseDTO = _userService.CreateUser(userRequestDto);
+			var userResponseDTO = _userService.CreateUser(userRequestDTO);
 			return StatusCode(201, userResponseDTO);
 		}
 
@@ -57,7 +58,9 @@ namespace DC_REST.Controllers
 			}
 			catch (ArgumentException ex)
 			{
-				return BadRequest(ex.Message);
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, System.Net.HttpStatusCode.BadRequest); ;
+
+				return BadRequest(errorMessage);
 			}
 		}
 

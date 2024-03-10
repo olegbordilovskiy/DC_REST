@@ -4,6 +4,7 @@ using DC_REST.DTOs.Response;
 using DC_REST.Entities;
 using DC_REST.Repositories;
 using DC_REST.Services.Interfaces;
+using DC_REST.Validators;
 using System.Collections.Generic;
 
 namespace DC_REST.Services
@@ -12,16 +13,20 @@ namespace DC_REST.Services
 	{
 		private readonly IRepository<Label> _labelRepository;
 		private readonly IMapper _mapper;
+		private readonly IValidator<LabelRequestTo> _labelValidator;
 
-		public LabelService(IRepository<Label> labelRepository, IMapper mapper)
+		public LabelService(IRepository<Label> labelRepository, IMapper mapper, IValidator<LabelRequestTo> labelValidator)
 		{
 			_labelRepository = labelRepository;
 			_mapper = mapper;
+			_labelValidator = labelValidator;
 		}
 
 		public LabelResponseTo CreateLabel(LabelRequestTo labelRequestDto)
 		{
 			var label = _mapper.Map<Label>(labelRequestDto);
+			var currentId = _labelRepository.GetCurrentId();
+			label.Id = currentId;
 			var createdLabel = _labelRepository.Add(label);
 			var responseDto = _mapper.Map<LabelResponseTo>(createdLabel);
 
@@ -46,10 +51,14 @@ namespace DC_REST.Services
 
 		public LabelResponseTo UpdateLabel(int id, LabelRequestTo labelRequestDto)
 		{
+			if (!_labelValidator.Validate(labelRequestDto))
+			{
+				throw new AggregateException("Invalid label data");
+			}
+
 			var existingLabel = _labelRepository.GetById(id);
 			if (existingLabel == null)
 			{
-				// Обработка ситуации, когда метка не найдена
 				return null;
 			}
 
@@ -65,7 +74,6 @@ namespace DC_REST.Services
 			var labelToDelete = _labelRepository.GetById(id);
 			if (labelToDelete == null)
 			{
-				// Обработка ситуации, когда метка не найдена
 				return false;
 			}
 

@@ -25,11 +25,21 @@ namespace DC_REST
 			builder.Services.AddSwaggerGen();
 
 			builder.Services.AddSingleton<IRepository<Issue>, InMemoryRepository<Issue>>();
+			builder.Services.AddTransient<IValidator<IssueRequestTo>, IssueValidator>();
 			builder.Services.AddTransient<IIssueService,IssueService>();
 
 			builder.Services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
 			builder.Services.AddTransient<IValidator<UserRequestTo>, UserValidator>();
 			builder.Services.AddTransient<IUserService, UserService>();
+
+			builder.Services.AddSingleton<IRepository<Label>, InMemoryRepository<Label>>();
+			builder.Services.AddTransient<IValidator<LabelRequestTo>, LabelValidator>();
+			builder.Services.AddTransient<ILabelService, LabelService>();
+
+
+			builder.Services.AddSingleton<IRepository<Note>, InMemoryRepository<Note>>();
+			builder.Services.AddTransient<IValidator<NoteRequestTo>, NoteValidator>();
+			builder.Services.AddTransient<INoteService, NoteService>();
 
 			builder.Services.AddAutoMapper(typeof(IssueMapper));
 			builder.Services.AddAutoMapper(typeof(LabelMapper));

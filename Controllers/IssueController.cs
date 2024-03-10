@@ -2,11 +2,10 @@
 using DC_REST.DTOs.Request;
 using DC_REST.DTOs.Response;
 using DC_REST.Entities;
-using DC_REST.Services;
 using DC_REST.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace DC_REST.Controllers
 {
@@ -24,10 +23,9 @@ namespace DC_REST.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateIssue(IssueRequestTo issueRequestDto)
+		public IActionResult CreateIssue(IssueRequestTo issueRequestDTO)
 		{
-			var issueResponseDTO = _issueService.CreateIssue(issueRequestDto); 
-			//return Ok(issueResponseDTO); // Возврат созданного объекта responseDto
+			var issueResponseDTO = _issueService.CreateIssue(issueRequestDTO);
 			return StatusCode(201, issueResponseDTO);
 		}
 
@@ -41,23 +39,31 @@ namespace DC_REST.Controllers
 		[HttpGet("{id}")]
 		public IActionResult GetIssueById(int id)
 		{
-			var issuerResponseDTO = _issueService.GetIssueById(id);
+			var issueResponseDTO = _issueService.GetIssueById(id);
 
-			if (issuerResponseDTO == null)
+			if (issueResponseDTO == null)
 				return NotFound();
 
-			return Ok(issuerResponseDTO);
+			return Ok(issueResponseDTO);
 		}
 
-		[HttpPut("{id}")]
-		public IActionResult UpdateIssue(int id, IssueRequestTo issueRequestDto)
+		[HttpPut]
+		public IActionResult UpdateIssue(IssueRequestTo issueRequestDTO)
 		{
-			var issuerResponseDTO = _issueService.UpdateIssue(id, issueRequestDto);
+			try
+			{
+				var issueResponseDTO = _issueService.UpdateIssue(issueRequestDTO.Id, issueRequestDTO);
+				if (issueResponseDTO == null)
+					return NotFound();
 
-			if (issuerResponseDTO == null)
-				return NotFound();
+				return Ok(issueResponseDTO);
+			}
+			catch (ArgumentException ex)
+			{
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, HttpStatusCode.BadRequest); ;
 
-			return Ok(issuerResponseDTO);
+				return BadRequest(errorMessage);
+			}
 		}
 
 		[HttpDelete("{id}")]
@@ -71,5 +77,4 @@ namespace DC_REST.Controllers
 			return NoContent();
 		}
 	}
-
 }
