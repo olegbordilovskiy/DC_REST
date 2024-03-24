@@ -8,7 +8,7 @@ namespace DC_REST.Entities
 
 		public string Name { get; set; }
 
-		//public List<Issue> Issues { get; set; } = new();
+		public List<Issue> Issues { get; set; } = new();
 		public List<Issue_Label> Issue_Labels { get; set; } = new();
 	}
 }

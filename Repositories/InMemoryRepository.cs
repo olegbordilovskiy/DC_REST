@@ -10,9 +10,9 @@
 			return _data.ContainsKey(id) ? _data[id] : default;
 		}
 
-		public IEnumerable<TEntity> GetAll()
+		public List<TEntity> GetAll()
 		{
-			return _data.Values.AsEnumerable();
+			return _data.Values.ToList();
 		}
 
 		public TEntity Add(TEntity entity)

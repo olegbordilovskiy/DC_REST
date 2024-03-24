@@ -24,9 +24,13 @@ namespace DC_REST.Services
 
 		public LabelResponseTo CreateLabel(LabelRequestTo labelRequestDto)
 		{
+			if (!_labelValidator.Validate(labelRequestDto))
+			{
+				throw new ArgumentException("Invalid label data");
+			}
 			var label = _mapper.Map<Label>(labelRequestDto);
-			var currentId = _labelRepository.GetCurrentId();
-			label.Id = currentId;
+			//var currentId = _labelRepository.GetCurrentId();
+			//label.Id = currentId;
 			var createdLabel = _labelRepository.Add(label);
 			var responseDto = _mapper.Map<LabelResponseTo>(createdLabel);
 

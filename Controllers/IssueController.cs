@@ -5,6 +5,7 @@ using DC_REST.Entities;
 using DC_REST.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace DC_REST.Controllers
@@ -25,8 +26,21 @@ namespace DC_REST.Controllers
 		[HttpPost]
 		public IActionResult CreateIssue(IssueRequestTo issueRequestDTO)
 		{
-			var issueResponseDTO = _issueService.CreateIssue(issueRequestDTO);
-			return StatusCode(201, issueResponseDTO);
+			try
+			{
+				var issueResponseDTO = _issueService.CreateIssue(issueRequestDTO);
+				return StatusCode(201, issueResponseDTO);
+			}
+			catch (DbUpdateException ex)
+			{
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, HttpStatusCode.BadRequest); ;
+				return StatusCode(403, errorMessage);
+			}
+			catch (Exception ex)
+			{
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, HttpStatusCode.BadRequest); ;
+				return BadRequest(errorMessage);
+			}
 		}
 
 		[HttpGet]

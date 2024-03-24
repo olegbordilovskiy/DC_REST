@@ -24,9 +24,13 @@ namespace DC_REST.Services
 
 		public NoteResponseTo CreateNote(NoteRequestTo noteRequestDto)
 		{
+			if (!_noteValidator.Validate(noteRequestDto))
+			{
+				throw new ArgumentException("Invalid note data");
+			}
 			var note = _mapper.Map<Note>(noteRequestDto);
-			var currentId = _noteRepository.GetCurrentId();
-			note.Id = currentId;
+			//var currentId = _noteRepository.GetCurrentId();
+			//note.Id = currentId;
 			var createdNote = _noteRepository.Add(note);
 			var responseDto = _mapper.Map<NoteResponseTo>(createdNote);
 

@@ -23,9 +23,13 @@ namespace DC_REST.Services
 
 		public UserResponseTo CreateUser(UserRequestTo userRequestDto)
 		{
+			if (!_userValidator.Validate(userRequestDto))
+			{
+				throw new ArgumentException("Invalid user data");
+			}
 			var user = _mapper.Map<User>(userRequestDto);
-			var currentId = _userRepository.GetCurrentId();
-			user.Id = currentId;
+			//var currentId = _userRepository.GetCurrentId();
+			//user.Id = currentId;
 			var createdUser = _userRepository.Add(user);
 			var responseDto = _mapper.Map<UserResponseTo>(createdUser);
 

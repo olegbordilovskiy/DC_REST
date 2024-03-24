@@ -24,9 +24,13 @@ namespace DC_REST.Services
 
 		public IssueResponseTo CreateIssue(IssueRequestTo issueRequestDto)
 		{
+			if (!_issueValidator.Validate(issueRequestDto))
+			{
+				throw new ArgumentException("Invalid issue data");
+			}
 			var issue = _mapper.Map<Issue>(issueRequestDto);
-			var currentId = _issueRepository.GetCurrentId();
-			issue.Id = currentId;
+			//var currentId = _issueRepository.GetCurrentId();
+			//issue.Id = currentId;
 			var createdIssue = _issueRepository.Add(issue);
 			var responseDto = _mapper.Map<IssueResponseTo>(createdIssue);
 

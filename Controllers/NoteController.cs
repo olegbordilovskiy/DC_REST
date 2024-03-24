@@ -4,6 +4,7 @@ using DC_REST.Entities;
 using DC_REST.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace DC_REST.Controllers
@@ -24,8 +25,21 @@ namespace DC_REST.Controllers
 		[HttpPost]
 		public IActionResult CreateNote(NoteRequestTo noteRequestDTO)
 		{
-			var noteResponseDTO = _noteService.CreateNote(noteRequestDTO);
-			return StatusCode(201, noteResponseDTO);
+			try
+			{
+				var noteResponseDTO = _noteService.CreateNote(noteRequestDTO);
+				return StatusCode(201, noteResponseDTO);
+			}
+			catch (DbUpdateException ex)
+			{
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, HttpStatusCode.BadRequest); ;
+				return StatusCode(403, errorMessage);
+			}
+			catch (Exception ex)
+			{
+				var errorMessage = ErrorResponse.CreateErrorResponse(ex.Message, HttpStatusCode.BadRequest); ;
+				return BadRequest(errorMessage);
+			}
 		}
 
 		[HttpGet]

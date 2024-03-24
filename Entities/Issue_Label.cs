@@ -4,7 +4,7 @@ namespace DC_REST.Entities
 {
 	public class Issue_Label
 	{
-		public int id { get; set; }
+		public int Id { get; set; }
 		public int IssueId { get; set; }
 		public Issue? Issue { get; set; }
 
